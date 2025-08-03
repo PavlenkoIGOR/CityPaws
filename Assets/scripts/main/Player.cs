@@ -11,6 +11,8 @@ public class Player : SingletonBase<Player>
     private Cat m_Cat;
     public Cat ActiveCat => m_Cat;
 
+    public int playerHP;
+
     [SerializeField] private GameObject m_PlayerCatPrefab;
 
     [SerializeField] private CameraController m_CameraController;
@@ -26,13 +28,13 @@ public class Player : SingletonBase<Player>
         base.Awake();
         if (_startSpawnPoint)
         {
-            print($"isTeleported {isTeleported}");
+            //print($"isTeleported {isTeleported}");
             StartRespawn1(_startSpawnPoint);
         }
     }
     private void Start()
     {
-
+        playerHP = ActiveCat.GetComponent<Destructible>().currentHitPoints;
 
         //m_Cat.EventOnDeath.AddListener(OnCatDeath);
     }

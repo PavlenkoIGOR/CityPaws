@@ -1,5 +1,86 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1875180779367064948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3514179002073982423}
+  - component: {fileID: 4766580778011028739}
+  - component: {fileID: 335216714905227149}
+  m_Layer: 6
+  m_Name: interactibleChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3514179002073982423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875180779367064948}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.105, y: 1.406, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2479136427226386984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &4766580778011028739
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875180779367064948}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.26
+--- !u!114 &335216714905227149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875180779367064948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019680a053cf32549968949d97f19470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmosRadius: 0.24
 --- !u!1 &1878208255016739596
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +157,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 567687358, guid: 7aab2f67fc4eb6343bb970efc9f45bf4, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.2, y: 1.3925}
@@ -348,8 +429,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.29, y: 2.54}
+  m_Offset: {x: -0.1, y: 0.4}
+  m_Size: {x: 1.02, y: 1.68}
   m_Direction: 0
 --- !u!1 &6327502660124521225
 GameObject:
@@ -426,6 +507,51 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 40.3
+--- !u!1 &8928421561713093821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1034207252390541391}
+  - component: {fileID: 327900168444724831}
+  m_Layer: 6
+  m_Name: groundChecker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1034207252390541391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928421561713093821}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.677, y: 0.351, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2479136427226386984}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &327900168444724831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928421561713093821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019680a053cf32549968949d97f19470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmosRadius: 0.04
 --- !u!1 &9126107905713471248
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +563,7 @@ GameObject:
   - component: {fileID: 2479136427226386984}
   - component: {fileID: 6393840072931589204}
   - component: {fileID: 7572214554178309554}
+  - component: {fileID: 6737074663674832662}
   m_Layer: 6
   m_Name: easyEnemy
   m_TagString: Untagged
@@ -457,6 +584,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3514179002073982423}
+  - {fileID: 1034207252390541391}
   - {fileID: 4580457417105867848}
   - {fileID: 4395186534705859973}
   - {fileID: 642433765426971205}
@@ -475,7 +604,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDestructible: 1
-  _hitPoints: 30
+  _hitPoints: 20
+  damage: 5
   _healthBarMain: {fileID: 3944356319341477982}
   m_EventOnDeath:
     m_PersistentCalls:
@@ -509,3 +639,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &6737074663674832662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126107905713471248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05afd3fa51fc5964cae93320611d78a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 4
+  _jumpSpeed: 0
+  _visualSprite: {fileID: 4074350066760108306}
+  _groundChecker: {fileID: 1034207252390541391}
+  _groundCheckerRadius: 0.04
+  _catCollider: {fileID: 3063104735651120193}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _animator: {fileID: 3754783440101752106}
+  attackPoint: {fileID: 3514179002073982423}
+  attackRange: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128

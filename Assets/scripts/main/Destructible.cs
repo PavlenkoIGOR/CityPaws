@@ -22,10 +22,12 @@ public class Destructible : MonoBehaviour
     private int _currentHitPoints;
     public int currentHitPoints => _currentHitPoints;
 
+    public int damage = 10;
+
+
     [SerializeField] private Image _healthBarMain;
     protected Image healthBarMain => _healthBarMain;
 
-    protected float _originalSizeY;
 
 
     #endregion
@@ -39,10 +41,6 @@ public class Destructible : MonoBehaviour
     protected virtual void Start()
     {
         _currentHitPoints = _hitPoints;
-        //_originalSizeY = _healthBarMain.size.y;
-
-
-
     }
 
     #region Безтеговая коллекция скриптов на сцене
@@ -81,7 +79,7 @@ public class Destructible : MonoBehaviour
             return;
 
         _currentHitPoints -= damage;
-        print($"_currentHitPoints {_currentHitPoints}");
+        //print($"_currentHitPoints {_currentHitPoints}");
 
         if (_healthBarMain)
         {
@@ -98,9 +96,12 @@ public class Destructible : MonoBehaviour
 
     }
 
-    public void AddHitPoints(float hp)
+    public void AddHitPoints(int hp)
     {
-        _currentHitPoints = (int)Mathf.Clamp(_currentHitPoints + hp, 0, _hitPoints);
+        //print($"_currentHitPoints before {_currentHitPoints}");
+        //_currentHitPoints = (int)Mathf.Clamp(_currentHitPoints + hp, 0, _hitPoints);
+        //print($"_currentHitPoints after {_currentHitPoints}");
+        _hitPoints += hp;
     }
 
     #endregion

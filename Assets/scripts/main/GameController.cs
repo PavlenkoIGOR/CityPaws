@@ -11,6 +11,7 @@ public enum Scenes
 }
 public class GameController : SingletonBase<GameController>
 {
+    public static bool isPaused;
     // Start is called before the first frame update
     void Start()
     {
