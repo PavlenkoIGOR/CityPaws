@@ -1,11 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class Player : SingletonBase<Player>
 {
+    [SerializeField] private int _playerHP_Room = 80;
+    [SerializeField] private int _playerHP_Street = 80;
+    [SerializeField] private int _playerHP_Roof = 100;
+    [SerializeField] private int _playerHP_Boss = 1000;
 
     [SerializeField] private int m_NumLives;
     private Cat m_Cat;
@@ -15,28 +17,26 @@ public class Player : SingletonBase<Player>
 
     [SerializeField] private GameObject m_PlayerCatPrefab;
 
-    [SerializeField] private CameraController m_CameraController;
+
     [SerializeField] private CatController m_MovementController;
 
-    [SerializeField] private Transform _startSpawnPoint;
+    private CameraController m_CameraController;
+    private Transform _startSpawnPoint;
+    private Transform _spawnPointFromPreviousLvl;
 
-    public static bool isTeleported;
-
+    public bool isGoingBack;
     public static bool canMove;
+
+
     protected override void Awake()
     {
         base.Awake();
-        if (_startSpawnPoint)
-        {
-            //print($"isTeleported {isTeleported}");
-            StartRespawn1(_startSpawnPoint);
-        }
+        PlayerPrefs.SetString("isGoingBack", "false");
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     private void Start()
     {
         playerHP = ActiveCat.GetComponent<Destructible>().currentHitPoints;
-
-        //m_Cat.EventOnDeath.AddListener(OnCatDeath);
     }
 
     private void OnCatDeath()
@@ -45,78 +45,52 @@ public class Player : SingletonBase<Player>
 
         if (m_NumLives > 0)
             Respawn();
-        //else
-        //LevelSequenceController.Instance.FinishCurrentLevel(false);
     }
 
     public void Respawn()
     {
         var newPlayerShip = Instantiate(m_PlayerCatPrefab.gameObject);
 
+        print("newPlayerShip");
+
         m_Cat = newPlayerShip.GetComponent<Cat>();
 
-        m_CameraController.SetTarget(m_Cat.transform);
+        //m_CameraController.SetTarget(m_Cat.transform);
         m_MovementController.SetTargetShip(m_Cat);
 
         m_Cat.EventOnDeath.AddListener(OnCatDeath);
 
         //Player.isTeleported = false;
     }
-    public void StartRespawn1(Transform spawnPoint)
+    public void Respawn(Transform spawnPoint)
     {
         if (spawnPoint != null)
         {
             var newPlayerCat = Instantiate(m_PlayerCatPrefab);
-            newPlayerCat.transform.position = spawnPoint.position;
-            Vector3 scale = newPlayerCat.transform.localScale;
-            if (CheckSpawnPointDirection(spawnPoint) > 0)
+            if (newPlayerCat)
             {
-                scale.x = scale.x * CheckSpawnPointDirection(spawnPoint);
-                //print($"right");
-                //newPlayerCat.GetComponent<CatController>()._visualSprite.flipX = true;
-                
+                newPlayerCat.transform.position = spawnPoint.position;
+                Vector3 scale = newPlayerCat.transform.localScale;
+                if (CheckSpawnPointDirection(spawnPoint) > 0)
+                {
+                    scale.x = scale.x * CheckSpawnPointDirection(spawnPoint);
+                }
+                else
+                {
+                    scale.x = scale.x * CheckSpawnPointDirection(spawnPoint);
+                }
+                newPlayerCat.transform.localScale = scale;
+
+
+                m_Cat = newPlayerCat.GetComponent<Cat>();
+
+                m_CameraController = Camera.main.GetComponent<CameraController>();
+                m_CameraController.SetTarget(m_Cat.transform);
+                m_MovementController.SetTargetShip(m_Cat);
+                m_Cat.EventOnDeath.AddListener(OnCatDeath);
             }
-            else
-            {
-                //print("left");
-                //newPlayerCat.GetComponent<CatController>()._visualSprite.flipX = false;
-                scale.x = scale.x * CheckSpawnPointDirection(spawnPoint);
-            }
-            newPlayerCat.transform.localScale = scale;
 
 
-
-
-
-
-
-            //Vector3 scale = newPlayerCat.transform.localScale;
-            //if (CheckSpawnPointDirection(spawnPoint) > 0)
-            //{
-            //    scale.x = scale.x * CheckSpawnPointDirection(spawnPoint);
-            //    print($"right {scale.x}");
-            //    //newPlayerCat.GetComponent<CatController>()._visualSprite.flipX = true;
-
-            //}
-            //else
-            //{
-
-            //    //newPlayerCat.GetComponent<CatController>()._visualSprite.flipX = false;
-            //    scale.x = scale.x * CheckSpawnPointDirection(spawnPoint);
-            //    print($"left {scale.x}");
-            //}
-            //newPlayerCat.transform.localScale = scale;
-
-            m_Cat = newPlayerCat.GetComponent<Cat>();
-            m_CameraController.SetTarget(m_Cat.transform);
-            m_MovementController.SetTargetShip(m_Cat);
-            m_Cat.EventOnDeath.AddListener(OnCatDeath);
-
-
-            if (m_Cat)
-            {
-                //Debug.LogWarning("spawnPoint is !null! respawn.");
-            }
 
         }
         else
@@ -165,5 +139,48 @@ public class Player : SingletonBase<Player>
             return 1;
         }
         return -1;
+    }
+
+
+    public void FindSpawnPoints()
+    {
+        var spawnPoints = FindObjectsByType<SpawnPoint>(sortMode: FindObjectsSortMode.None);
+        foreach (var spawnPoint in spawnPoints)
+        {
+            if (spawnPoint.directionSpawnPoint == DirectionSpawnPoint.MoveForeward)
+            {
+                _startSpawnPoint = spawnPoint.transform;
+            }
+            else if (spawnPoint.directionSpawnPoint == DirectionSpawnPoint.MoveBack)
+            {
+                _spawnPointFromPreviousLvl = spawnPoint.transform;
+            }
+
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindSpawnPoints();
+        SetSpawnPoints();
+    }
+
+    public void SetSpawnPoints()
+    {
+        if (PlayerPrefs.GetString("isGoingBack") == "true")
+        {
+            if (_spawnPointFromPreviousLvl)
+            {
+                Respawn(_spawnPointFromPreviousLvl);
+            }
+        }
+        else if (PlayerPrefs.GetString("isGoingBack") == "false")
+
+        {
+            if (_startSpawnPoint)
+            {
+                Respawn(_startSpawnPoint);
+            }
+        }
     }
 }

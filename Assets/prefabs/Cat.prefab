@@ -76,10 +76,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.19, y: 0.37666035}
-      - {x: -1.19, y: 0.38003042}
-      - {x: -0.66, y: -0.68}
-      - {x: -0.089999974, y: -0.68}
+    - - {x: 0.7661681, y: 0.36656904}
+      - {x: -1.507873, y: 0.20343426}
+      - {x: -0.6549551, y: -0.85155123}
+      - {x: -0.019361317, y: -0.85155076}
   m_UseDelaunayMesh: 0
 --- !u!1 &1324280549349048617
 GameObject:
@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 1324280549349048617}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.43, y: 0, z: 0}
+  m_LocalPosition: {x: -1.672, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -188,7 +188,7 @@ Transform:
   m_GameObject: {fileID: 3097861983283022623}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.335, y: -0.693, z: 0}
+  m_LocalPosition: {x: -0.391, y: -0.844, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -427,8 +427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a2be62133a08047926a97fbc4c72e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 6
-  _jumpSpeed: 7
+  _speed: 7
+  _jumpSpeed: 8
   _visualSprite: {fileID: 214988786424320162}
   _groundChecker: {fileID: 6357880002501158664}
   _groundCheckerRadius: 0.04

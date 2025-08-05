@@ -33,7 +33,7 @@ public class CatController : MonoBehaviour
         float moveX = Input.GetAxis(horiz) * _speed;
 
         _isGrounded = Physics2D.OverlapCircle(_groundChecker.position, _groundCheckerRadius, groundMask);
-        //_isOnEnemy = Physics2D.OverlapCircle(_groundChecker.position, _groundCheckerRadius, enemyLayer);
+        
 
         Vector3 scale = transform.localScale;
         if (moveX > 0)
@@ -50,7 +50,7 @@ public class CatController : MonoBehaviour
 
 
         transform.position += new Vector3(moveX, 0, 0) * Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded /*|| Input.GetKeyDown(KeyCode.Space) && _isOnEnemy*/)
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded )
         {
             _rb2D.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
         }
@@ -71,21 +71,21 @@ public class CatController : MonoBehaviour
     void SetAnimation(float moveX)
     {
         
-        if (_isGrounded && Mathf.Abs(moveX) > 0.01f /*|| Mathf.Abs(moveX) > 0.01f && _isOnEnemy*/)
+        if (_isGrounded && Mathf.Abs(moveX) > 0.01f)
         {
             _animator.SetBool("isRunning", true);
             _animator.SetBool("isJumping", false);
             _animator.SetBool("isFalling", false);
             //print("isRunning");
         }
-        else if (_isGrounded && moveX <= 0.01f /*|| _isOnEnemy && moveX <= 0.01f*/)
+        else if (_isGrounded && moveX <= 0.01f )
         {
             _animator.SetBool("isRunning", false);
             _animator.SetBool("isJumping", false);
             _animator.SetBool("isFalling", false);
             //print("idle");
         }
-        else if (!_isGrounded /*|| !_isOnEnemy*/)
+        else if (!_isGrounded)
         {
             if (_rb2D.velocity.y > 0.01f)
             {

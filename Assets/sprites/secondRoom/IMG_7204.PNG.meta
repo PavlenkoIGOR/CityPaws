@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 84299f0fcb489c441a57810d5075e256
+guid: e0a5600c95fc23448b6afb86ff95c66c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 240
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,70 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: IMG_7108_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 738
-        height: 478
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0e4c13d41673624428ae762ee9541cc5
-      internalID: 1102621661
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMG_7108_8
-      rect:
-        serializedVersion: 2
-        x: 786
-        y: 3
-        width: 763
-        height: 475
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 597263e2c6b29a94699ccfc630d3e35c
-      internalID: -232583040
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IMG_7108_9
-      rect:
-        serializedVersion: 2
-        x: 1594
-        y: 4
-        width: 760
-        height: 473
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0b5ffa57c81d93940b134986a064865e
-      internalID: 153859526
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -195,17 +132,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      IMG_7108_0: 1102621661
-      IMG_7108_1: 546196828
-      IMG_7108_2: 980523923
-      IMG_7108_3: -1617338667
-      IMG_7108_4: 444375065
-      IMG_7108_5: -594946206
-      IMG_7108_6: 1761361778
-      IMG_7108_7: -683225931
-      IMG_7108_8: -232583040
-      IMG_7108_9: 153859526
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
