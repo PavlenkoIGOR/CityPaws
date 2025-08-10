@@ -167,7 +167,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.65, y: -0.08}
+  m_Offset: {x: -0.35, y: -0.08}
   m_Size: {x: 2.38, y: 1.79}
   m_Direction: 1
 --- !u!1 &2996664958459350898
@@ -352,7 +352,7 @@ Transform:
   m_GameObject: {fileID: 4293131623275830452}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.66, y: -1.023, z: 0}
+  m_LocalPosition: {x: -0.66, y: -1.008, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -474,7 +474,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.1866522, y: 1.0874144, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1804027139192488384}
@@ -520,12 +520,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 567687358, guid: 7aab2f67fc4eb6343bb970efc9f45bf4, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -1666614414, guid: 4fb30b931d3d1904d9eae767f7e906ab, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
-  m_Size: {x: 2.5783334, y: 1.37}
+  m_DrawMode: 0
+  m_Size: {x: 2.11, y: 1.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -541,7 +541,7 @@ Animator:
   m_GameObject: {fileID: 8880717133217570450}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c01cdac40d115f148a9ee70294bcb100, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4bad709d35f760b4ab4dfa640330ee1b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -667,6 +667,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  patrolLength: 5
+  patrolLength: 7
   originOfPatrolArea: {fileID: 0}
   stoppingDist: 10
+  attackTimeInterval: 1
