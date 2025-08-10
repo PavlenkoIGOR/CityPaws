@@ -23,7 +23,7 @@ public class Destructible : MonoBehaviour
     private int _currentHitPoints;
     public int currentHitPoints { get { return _currentHitPoints; } set { _currentHitPoints = value; } }
 
-    public int damage = 10;
+    public int damage;
 
 
     [SerializeField] private Image _healthBarMain;
@@ -70,12 +70,15 @@ public class Destructible : MonoBehaviour
 
     #region Public API
 
+    public int takenDmg { get; set; }
     /// <summary>
     /// Применение дамага к объекту.
     /// </summary>
     /// <param name="damage"></param>
     public void ApplyDamage(int damage)
     {
+        takenDmg = damage;
+        print(damage);
         if (!_isDestructible)
             return;
 
@@ -167,10 +170,8 @@ public class Destructible : MonoBehaviour
     #region animation
     private IEnumerator PLayDeath()
     {
-        print("PlayDie");
         if (_animatorController != null)
         {
-            print("dieAnim");
             _animatorController.SetTrigger("deathTrigger");
 
             float clipLength = default;

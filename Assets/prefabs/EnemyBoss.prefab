@@ -631,7 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDestructible: 1
-  _animatorController: {fileID: 0}
+  _animatorController: {fileID: 5798438255714522746}
   _hitPoints: 75
   damage: 20
   _healthBarMain: {fileID: 203747404149192561}
@@ -670,3 +670,4 @@ MonoBehaviour:
   patrolLength: 5
   originOfPatrolArea: {fileID: 0}
   stoppingDist: 10
+  attackTimeInterval: 1

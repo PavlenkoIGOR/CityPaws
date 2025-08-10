@@ -28,10 +28,17 @@ public class UIController : MonoBehaviour
             var destructible = Player.instance.ActiveCat.GetComponent<Destructible>();
             if (destructible != null)
             {
-                //float maxHP = destructible._hitPoints;
                 float maxHP = destructible.currentHitPoints;
-
-                float maxWidth = maxHP / 20 * 62;
+                float maxWidth;
+                //if (destructible.currentHitPoints == destructible._hitPoints)
+                //{
+                    maxWidth = maxHP / 20 * 62;
+                //}
+                //else
+                //{
+                //    maxWidth = maxHP / destructible.takenDmg * 62;
+                //}
+                    
 
                 float height = hpPlayerImage.sizeDelta.y;
 

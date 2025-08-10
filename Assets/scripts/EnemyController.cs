@@ -197,18 +197,24 @@ public class EnemyController : EntityController
 
         foreach (Collider2D enemy in hitEenemies)
         {
-            enemy.transform.parent.GetComponent<Destructible>().ApplyDamage(/*transform.GetComponent<Destructible>().damage*/10);
+            enemy.transform.parent.GetComponent<Destructible>().ApplyDamage(transform.GetComponent<Destructible>().damage);
 
            //print("enemy attack");
         }
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public float attackTimeInterval = 1f; // интервал между вызовами Attack()
+    private float lastAttackTime = -Mathf.Infinity; // время последнего вызова
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.collider.transform.root.GetComponent<Cat>())
-        {            
-            Attack();
+        {
+            if (Time.time - lastAttackTime >= attackTimeInterval)
+            {
+                Attack();
+                lastAttackTime = Time.time;
+            }
         }
 
     }
