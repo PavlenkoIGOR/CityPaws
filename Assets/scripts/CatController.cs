@@ -3,34 +3,16 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class CatController : MonoBehaviour
+public class CatController : EntityController
 {
-    private string horiz = "Horizontal";
-    //private string vert = "Vertical";
-    private Rigidbody2D _rb2D;
-    private float lastDirectionX = 1f;
-
-    [SerializeField]private float _speed;
-    [SerializeField]private float _jumpSpeed;
-    [SerializeField]public SpriteRenderer _visualSprite;
-    [SerializeField] private Transform _groundChecker;
-    [SerializeField] private float _groundCheckerRadius = 0.04f;
-    [SerializeField] private Collider2D _catCollider;
-    public LayerMask groundMask;
-
-    [SerializeField] private Animator _animator;
-
-    private bool _isGrounded = false;
-    private bool _isOnEnemy = false;
-
-    void Start()
+    protected override void Start()
     {
-        _rb2D = GetComponent<Rigidbody2D>();
+        base.Start();
     }
 
     void Update()
     {
-        float moveX = Input.GetAxis(horiz) * _speed;
+        float moveX = Input.GetAxis(horiz) * speed;
 
         _isGrounded = Physics2D.OverlapCircle(_groundChecker.position, _groundCheckerRadius, groundMask);
         
@@ -55,7 +37,7 @@ public class CatController : MonoBehaviour
             _rb2D.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && _isGrounded /*|| Input.GetKeyDown(KeyCode.F) && _isOnEnemy*/)
+        if (Input.GetKeyDown(KeyCode.F) && _isGrounded)
         {
             //_animator.SetTrigger("attackTrigger");
             //if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("catAttackAnim"))
@@ -107,16 +89,6 @@ public class CatController : MonoBehaviour
     internal void SetTargetShip(Cat m_Cat)
     {
     }
-
-
-
-
-
-
-    [Header("Attack settings")]
-    public Transform attackPoint;
-    public float attackRange = 0.5f;
-    public LayerMask enemyLayer;
 
     private void Attack()
     {

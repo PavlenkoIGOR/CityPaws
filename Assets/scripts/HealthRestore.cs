@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthRestore : MonoBehaviour
@@ -22,10 +20,13 @@ public class HealthRestore : MonoBehaviour
     {
         print("hr");
         Destructible cat = collision.transform.root.GetComponent<Destructible>();
-        if (cat)
+        if (cat.GetComponent<Cat>() != null)
         {
-            cat.AddHitPoints(restoreValue);
-            Destroy(transform.gameObject);
+            if (cat)
+            {
+                cat.AddHitPoints(restoreValue);
+                Destroy(transform.gameObject);
+            }
         }
         
     }

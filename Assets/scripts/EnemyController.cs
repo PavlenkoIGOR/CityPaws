@@ -1,56 +1,96 @@
 
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class EnemyController : MonoBehaviour
+public class EnemyController : EntityController
 {
-    private Rigidbody2D _rb2D;
+    
 
-    [SerializeField]private float _speed;
-    [SerializeField]private float _jumpSpeed;
-    [SerializeField]public SpriteRenderer _visualSprite;
-    [SerializeField] private Transform _groundChecker;
-    [SerializeField] private float _groundCheckerRadius = 0.04f;
-    [SerializeField] private Collider2D _catCollider;
-    public LayerMask groundMask;
 
-    [SerializeField] private Animator _animator;
+    
+    private float _speedTmp;
 
-    private bool _isGrounded = false;
-    private bool _isOnEnemy = false;
 
-    void Start()
+
+
+
+    [Header("Patroling")]
+    public int patrolLength;
+    public Transform originOfPatrolArea;
+    public float stoppingDist;
+    bool _movingRight;
+    Transform _player;
+    bool _chill = false;
+    bool _angry = false;
+    bool _goBack = false;
+
+    protected override void Start()
     {
-        _rb2D = GetComponent<Rigidbody2D>();
+        base.Start();
+        _player = Player.instance.ActiveCat.transform;
+        _speedTmp = _speed;
     }
 
     void Update()
     {
-
-
         _isGrounded = Physics2D.OverlapCircle(_groundChecker.position, _groundCheckerRadius, groundMask);
-        _isOnEnemy = Physics2D.OverlapCircle(_groundChecker.position, _groundCheckerRadius, enemyLayer);
-
-        //Vector3 scale = transform.localScale;
-        ////if (moveX > 0)
-        ////{
-        ////    scale.x = -Mathf.Abs(scale.x);
-        ////}
-        ////else if (moveX < 0)
-        ////{
-        ////    scale.x = Mathf.Abs(scale.x);
-        ////}
-
-        //transform.localScale = scale;
 
 
+
+        Vector3 scale = transform.localScale;
+        if (_movingRight)
+        {
+            scale.x = -Mathf.Abs(scale.x);
+        }
+        else if (!_movingRight)
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+        transform.localScale = scale;
+
+
+
+        if (_player)
+        {
+
+
+            if (Vector2.Distance(transform.position, originOfPatrolArea.position) < patrolLength && _angry == false)
+            {
+                _chill = true;
+            }
+            else if (Vector2.Distance(transform.position, _player.position) < stoppingDist)
+            {
+                _angry = true;
+                _chill = false;
+                _goBack = false;
+            }
+            else if (Vector2.Distance(transform.position, _player.position) > stoppingDist)
+            {
+                _goBack = true;
+                _angry = false;
+            }
+        }
+        if (_chill)
+        {
+            Chill();
+        }
+        else if (_angry == true)
+        {
+            Angry();
+        }
+        else if (_goBack)
+        {
+            GoBack();
+        }
 
         //transform.position += new Vector3(moveX, 0, 0) * Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded || Input.GetKeyDown(KeyCode.Space) && _isOnEnemy)
-        {
-            _rb2D.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        //{
+        //    _rb2D.AddForce(new Vector2(0, _jumpSpeed), ForceMode2D.Impulse);
+        //}
 
         //if (Input.GetKeyDown(KeyCode.F) && _isGrounded || Input.GetKeyDown(KeyCode.F) && _isOnEnemy)
         //{
@@ -62,27 +102,70 @@ public class EnemyController : MonoBehaviour
         //    Attack();
         //}
 
-        //SetAnimation(moveX);
+        SetAnimation();
+        
     }
 
-    void SetAnimation(float moveX)
+    private void GoBack()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, originOfPatrolArea.position, _speed * Time.deltaTime*0.5f);
+    }
+
+    private void Angry()
+    {
+        if (_player)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, _player.position, _speed * Time.deltaTime);
+            if (transform.position.x > _player.position.x)
+            {
+                _movingRight = false;
+            }
+            else if (transform.position.x < _player.position.x)
+            {
+                _movingRight = true;
+            }
+        }
+    }
+
+    private void Chill()
+    {
+        if (transform.position.x > originOfPatrolArea.position.x + patrolLength)
+        {
+            _movingRight = false;
+        }
+        else if (transform.position.x < originOfPatrolArea.position.x - patrolLength)
+        {
+            _movingRight = true;
+        }
+
+        if (_movingRight)
+        {
+            transform.position = new Vector2(transform.position.x + _speed * Time.deltaTime, transform.position.y);
+        }
+        else
+        {
+            transform.position = new Vector2(transform.position.x - _speed * Time.deltaTime, transform.position.y);
+        }
+    }
+
+    void SetAnimation()
     {
         
-        if (_isGrounded && Mathf.Abs(moveX) > 0.01f || Mathf.Abs(moveX) > 0.01f && _isOnEnemy)
+        if (_isGrounded && _movingRight || _isGrounded && !_movingRight)
         {
             _animator.SetBool("isRunning", true);
             _animator.SetBool("isJumping", false);
             _animator.SetBool("isFalling", false);
             //print("isRunning");
         }
-        else if (_isGrounded && moveX <= 0.01f || _isOnEnemy && moveX <= 0.01f)
+        else if (_isGrounded && _rb2D.velocity.x <= 0.01f)
         {
             _animator.SetBool("isRunning", false);
             _animator.SetBool("isJumping", false);
             _animator.SetBool("isFalling", false);
             //print("idle");
         }
-        else if (!_isGrounded || !_isOnEnemy)
+        else if (!_isGrounded)
         {
             if (_rb2D.velocity.y > 0.01f)
             {
@@ -106,35 +189,46 @@ public class EnemyController : MonoBehaviour
     }
 
 
-
-
-
-
-    [Header("Attack settings")]
-    public Transform attackPoint;
-    public float attackRange = 0.5f;
-    public LayerMask enemyLayer;
-
     private void Attack()
     {
         _animator.SetTrigger("attackTrigger");
-
+        StartCoroutine(PauseMove());
         Collider2D[] hitEenemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in hitEenemies)
         {
-            //Debug.Log($"enemy name {enemy.transform.parent.name}");
-            enemy.transform.root.GetComponent<Destructible>().ApplyDamage(transform.GetComponent<Destructible>().damage);
+            enemy.transform.parent.GetComponent<Destructible>().ApplyDamage(/*transform.GetComponent<Destructible>().damage*/10);
+
+           //print("enemy attack");
         }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.transform.root.GetComponent<Cat>())
-        {
-            print("hero comes");
+        {            
             Attack();
         }
 
+    }
+
+    IEnumerator PauseMove()
+    {        
+
+        float clipLength = default;
+        RuntimeAnimatorController rac = _animator.runtimeAnimatorController;
+        for (int i = 0; i < rac.animationClips.Length; i++)
+        {
+            if (rac.animationClips[i].name == "easyEnemyAttackAnim")
+            {
+                clipLength = rac.animationClips[i].length;
+                break;
+            }
+        }
+        _speedTmp = _speed;
+        _speed = 0;
+        yield return new WaitForSeconds(clipLength);
+        _speed = _speedTmp;
     }
 }

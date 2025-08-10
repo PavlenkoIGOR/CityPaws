@@ -303,7 +303,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: c01cdac40d115f148a9ee70294bcb100, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 8370781013414747699}
   - component: {fileID: 277728789280739885}
   m_Layer: 7
-  m_Name: Cat
+  m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,6 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDestructible: 1
+  _animatorController: {fileID: 487198342609009640}
   _hitPoints: 80
   damage: 10
   _healthBarMain: {fileID: 0}
@@ -432,7 +433,7 @@ MonoBehaviour:
   _visualSprite: {fileID: 214988786424320162}
   _groundChecker: {fileID: 6357880002501158664}
   _groundCheckerRadius: 0.04
-  _catCollider: {fileID: 8547750184123016704}
+  _entityCollider: {fileID: 8547750184123016704}
   groundMask:
     serializedVersion: 2
     m_Bits: 72

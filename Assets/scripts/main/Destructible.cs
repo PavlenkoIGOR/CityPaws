@@ -13,6 +13,7 @@ public class Destructible : MonoBehaviour
     /// Объект игнорирует повреждения.
     /// </summary>
     [SerializeField] private bool _isDestructible;
+    [SerializeField] private Animator _animatorController;
     public bool isDestructible { get { return _isDestructible; } set { _isDestructible = value; } }
 
     /// <summary>
@@ -20,7 +21,7 @@ public class Destructible : MonoBehaviour
     /// </summary>
     public int _hitPoints;
     private int _currentHitPoints;
-    public int currentHitPoints => _currentHitPoints;
+    public int currentHitPoints { get { return _currentHitPoints; } set { _currentHitPoints = value; } }
 
     public int damage = 10;
 
@@ -79,54 +80,48 @@ public class Destructible : MonoBehaviour
             return;
 
         _currentHitPoints -= damage;
-        //print($"_currentHitPoints {_currentHitPoints}");
-
-        if (_healthBarMain)
+        if (!GetComponent<Cat>())
         {
-            float damageRatio = (float)damage / _hitPoints;
-            _healthBarMain.fillAmount -= damageRatio;
-            if (_healthBarMain.fillAmount < 0) _healthBarMain.fillAmount = 0;
+            if (_healthBarMain != null)
+            {
+                _healthBarMain.fillAmount = (float)_currentHitPoints / _hitPoints;
+                if (_healthBarMain.fillAmount < 0)
+                {
+                    _healthBarMain.fillAmount = 0;
+                }
+            }
         }
-
-
+        else if(GetComponent<Cat>())
+        {
+            //print("cat");
+        }
         if (_currentHitPoints <= 3)
         {
             OnDeath();
         }
-
     }
 
     public void AddHitPoints(int hp)
     {
-        //print($"_currentHitPoints before {_currentHitPoints}");
-        //_currentHitPoints = (int)Mathf.Clamp(_currentHitPoints + hp, 0, _hitPoints);
-        //print($"_currentHitPoints after {_currentHitPoints}");
-        _hitPoints += hp;
+        _currentHitPoints += hp;
+        _currentHitPoints = (int)Mathf.Clamp(_currentHitPoints, 0, _hitPoints);
+        
     }
 
     #endregion
 
     protected virtual void OnDeath()
     {
-
-        //ViewExplosionSetActive();
-        //ShipExplosionSoundPlay();
-
-
-        //StartCoroutine(PLayExplosion());
-
+        GetComponent<EntityController>().speed = 0;
+        var controller = GetComponent<EntityController>();
+        GetComponent<Rigidbody2D>().simulated = false;
+        controller._entityCollider.enabled = false;
+        GetComponent<EntityController>().enabled = false;
+        StartCoroutine(PLayDeath());
         Player.instance.AddScore(scoreValue);
-        Destroy(gameObject);
         m_EventOnDeath?.Invoke();
     }
-    //void ViewExplosionSetActive()
-    //{
-    //    _viewExplosion.SetActive(true);
-    //}
-    //void ShipExplosionSoundPlay()
-    //{
-    //    _shipExplosionSound.Play();
-    //}
+
 
 
 
@@ -170,100 +165,28 @@ public class Destructible : MonoBehaviour
 
 
     #region animation
-    /*
-        private IEnumerator PLayExplosion()
+    private IEnumerator PLayDeath()
+    {
+        print("PlayDie");
+        if (_animatorController != null)
         {
-            if (_animShipExplosion != null)
+            print("dieAnim");
+            _animatorController.SetTrigger("deathTrigger");
+
+            float clipLength = default;
+            RuntimeAnimatorController rac = _animatorController.runtimeAnimatorController;
+            for (int i = 0; i < rac.animationClips.Length; i++)
             {
-                if (transform.tag == "Player")
+                if (rac.animationClips[i].name == "death")
                 {
-                    //print("heroExplosionAnim");
-                    _animShipExplosion.Play("HeroExplosionAnimation");
-
-                    float clipLength = default;
-                    RuntimeAnimatorController rac = _animShipExplosion.runtimeAnimatorController;
-                    for (int i = 0; i < rac.animationClips.Length; i++)
-                    {
-                        if (rac.animationClips[i].name == "HeroExplosionAnimation")
-                        {
-                            clipLength = rac.animationClips[i].length;
-                        }
-                    }
-
-                    yield return new WaitForSeconds(clipLength);
-
+                    clipLength = rac.animationClips[i].length;
                 }
-
-                if (transform.name.Contains("Blue"))
-                {
-                    _animShipExplosion.Play("BlueShipExplosion");
-
-                    float clipLength = default;
-                    RuntimeAnimatorController rac = _animShipExplosion.runtimeAnimatorController;
-                    for (int i = 0; i < rac.animationClips.Length; i++)
-                    {
-                        if (rac.animationClips[i].name == "BlueShipExplosion")
-                        {
-                            clipLength = rac.animationClips[i].length;
-                        }
-                    }
-
-                    yield return new WaitForSeconds(clipLength);
-                }
-                if (transform.name.Contains("Green"))
-                {
-                    _animShipExplosion.Play("GreenExplosionAnimation");
-
-                    float clipLength = default;
-                    RuntimeAnimatorController rac = _animShipExplosion.runtimeAnimatorController;
-                    for (int i = 0; i < rac.animationClips.Length; i++)
-                    {
-                        if (rac.animationClips[i].name == "GreenExplosionAnimation")
-                        {
-                            clipLength = rac.animationClips[i].length;
-                        }
-                    }
-
-                    yield return new WaitForSeconds(clipLength);
-                }
-                if (transform.name.Contains("Purple"))
-                {
-                    _animShipExplosion.Play("VioletShipExplosionaAnimation");
-
-                    float clipLength = default;
-                    RuntimeAnimatorController rac = _animShipExplosion.runtimeAnimatorController;
-                    for (int i = 0; i < rac.animationClips.Length; i++)
-                    {
-                        if (rac.animationClips[i].name == "VioletShipExplosionaAnimation")
-                        {
-                            clipLength = rac.animationClips[i].length;
-                        }
-                    }
-
-                    yield return new WaitForSeconds(clipLength);
-                }
-                if (transform.name.Contains("Boss"))
-                {
-                    _animShipExplosion.Play("BossExplosionAnim");
-
-                    float clipLength = default;
-                    RuntimeAnimatorController rac = _animShipExplosion.runtimeAnimatorController;
-                    for (int i = 0; i < rac.animationClips.Length; i++)
-                    {
-                        if (rac.animationClips[i].name == "BossExplosionAnim")
-                        {
-                            clipLength = rac.animationClips[i].length;
-                        }
-                    }
-
-                    yield return new WaitForSeconds(clipLength);
-                }
-
-                Destroy(gameObject);
             }
-
+            yield return new WaitForSeconds(clipLength);
         }
-    */
+        
+        Destroy(gameObject);
+    }
     #endregion
 }
 

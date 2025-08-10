@@ -4,16 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class Player : SingletonBase<Player>
 {
-    [SerializeField] private int _playerHP_Room = 80;
-    [SerializeField] private int _playerHP_Street = 80;
-    [SerializeField] private int _playerHP_Roof = 100;
-    [SerializeField] private int _playerHP_Boss = 1000;
-
     [SerializeField] private int m_NumLives;
     private Cat m_Cat;
     public Cat ActiveCat => m_Cat;
 
-    public int playerHP;
+    private int playerHP;
 
     [SerializeField] private GameObject m_PlayerCatPrefab;
 
@@ -31,12 +26,14 @@ public class Player : SingletonBase<Player>
     protected override void Awake()
     {
         base.Awake();
+
         PlayerPrefs.SetString("isGoingBack", "false");
         SceneManager.sceneLoaded += OnSceneLoaded;
+        
     }
     private void Start()
     {
-        playerHP = ActiveCat.GetComponent<Destructible>().currentHitPoints;
+        //playerHP = ActiveCat.GetComponent<Destructible>().currentHitPoints;
     }
 
     private void OnCatDeath()
@@ -64,6 +61,8 @@ public class Player : SingletonBase<Player>
     }
     public void Respawn(Transform spawnPoint)
     {
+
+
         if (spawnPoint != null)
         {
             var newPlayerCat = Instantiate(m_PlayerCatPrefab);
@@ -90,13 +89,14 @@ public class Player : SingletonBase<Player>
                 m_Cat.EventOnDeath.AddListener(OnCatDeath);
             }
 
-
+            //GetComponent<Destructible>()._hitPoints = 
 
         }
         else
         {
             //Debug.LogError("spawnPoint is null! Cannot respawn.");
         }
+        SetCurrentPlayerHP();
     }
 
 
@@ -182,5 +182,37 @@ public class Player : SingletonBase<Player>
                 Respawn(_startSpawnPoint);
             }
         }
+    }
+
+    public int playerHP_Room = 60;
+    public int playerHP_Street = 80;
+    public int playerHP_Roof = 100;
+    public int playerHP_Boss = 100;
+
+    private void SetCurrentPlayerHP()
+    {
+        if (SceneManager.GetActiveScene().name == nameof(Scenes.GameScene_Room))
+        {
+            playerHP = playerHP_Room;
+        }
+        if (SceneManager.GetActiveScene().name == nameof(Scenes.GameScene_Street))
+        {
+            playerHP = playerHP_Street;
+        }
+        if (SceneManager.GetActiveScene().name == nameof(Scenes.GameScene_Roof))
+        {
+            playerHP = playerHP_Roof;
+        }
+        if (SceneManager.GetActiveScene().name == nameof(Scenes.GameScene_Boss))
+        {
+            playerHP = playerHP_Boss;
+        }
+        Player.instance.m_Cat.GetComponent<Destructible>()._hitPoints = playerHP;
+    }
+
+    protected void OnDestroy()
+    {
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

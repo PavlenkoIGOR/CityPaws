@@ -456,6 +456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4153118720587155768}
   - component: {fileID: 7784075651033745548}
+  - component: {fileID: 5798438255714522746}
   m_Layer: 6
   m_Name: visual
   m_TagString: Untagged
@@ -530,6 +531,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5798438255714522746
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8880717133217570450}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c01cdac40d115f148a9ee70294bcb100, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8898256539036001391
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,6 +563,7 @@ GameObject:
   - component: {fileID: 1804027139192488384}
   - component: {fileID: 6985882260913564746}
   - component: {fileID: 9021692892028048330}
+  - component: {fileID: 4916626158429794390}
   m_Layer: 6
   m_Name: EnemyNormal
   m_TagString: Untagged
@@ -608,10 +631,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isDestructible: 1
+  _animatorController: {fileID: 0}
   _hitPoints: 30
+  damage: 10
   _healthBarMain: {fileID: 203747404149192561}
   m_EventOnDeath:
     m_PersistentCalls:
       m_Calls: []
   m_TeamId: 0
   _scoreValue: 0
+--- !u!114 &4916626158429794390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8898256539036001391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05afd3fa51fc5964cae93320611d78a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 2
+  _jumpSpeed: 0
+  _visualSprite: {fileID: 7784075651033745548}
+  _groundChecker: {fileID: 8915074854044595339}
+  _groundCheckerRadius: 0.04
+  _entityCollider: {fileID: 1153679816161896203}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 72
+  _animator: {fileID: 5798438255714522746}
+  attackPoint: {fileID: 4787913867457403503}
+  attackRange: 0.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  patrolLength: 5
+  originOfPatrolArea: {fileID: 0}
+  stoppingDist: 10

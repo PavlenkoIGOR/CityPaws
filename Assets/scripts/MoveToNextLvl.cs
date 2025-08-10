@@ -17,7 +17,7 @@ public class MoveToNextLvl : MonoBehaviour
         if (collision != null)
         {
             Cat cat = collision.transform.root.GetComponent<Cat>();
-            
+
 
             if (cat != null)
             {
@@ -34,7 +34,10 @@ public class MoveToNextLvl : MonoBehaviour
                     sceneInd--;
                 }
                 else return;
-                    SceneManager.LoadSceneAsync(sceneInd);                
+
+                if (Player.instance.ActiveCat != null)
+                    Destroy(Player.instance.ActiveCat.gameObject);
+                SceneManager.LoadSceneAsync(sceneInd);
             }
         }
     }

@@ -29,4 +29,13 @@ public class Cat : MonoBehaviour
             }
         }
     }
+
+    private void OnDisable()
+    {
+        if (Player.instance.ActiveCat != null)
+        {
+            //print("cat disable");
+            Destroy(gameObject);
+        }
+    }
 }
