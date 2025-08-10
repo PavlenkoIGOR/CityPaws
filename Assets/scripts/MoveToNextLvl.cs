@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,16 +13,43 @@ public class MoveToNextLvl : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //if (collision != null)
+        //{
+        //    Cat cat = collision.transform.root.GetComponent<Cat>();
+
+
+        //    if (cat != null)
+        //    {
+        //        int sceneInd = SceneManager.GetActiveScene().buildIndex;
+
+        //        if (directionDoor == DirectionDoor.ToNext && sceneInd <= EditorBuildSettings.scenes.Length)
+        //        {
+        //            PlayerPrefs.SetString("isGoingBack", "false");
+        //            sceneInd++;
+        //        }
+        //        else if (directionDoor == DirectionDoor.ToPrevious && sceneInd > 0)
+        //        {
+        //            PlayerPrefs.SetString("isGoingBack", "true");
+        //            sceneInd--;
+        //        }
+        //        else return;
+
+        //        if (Player.instance.ActiveCat != null)
+        //            Destroy(Player.instance.ActiveCat.gameObject);
+        //        SceneManager.LoadSceneAsync(sceneInd);
+        //    }
+        //}
+
         if (collision != null)
         {
             Cat cat = collision.transform.root.GetComponent<Cat>();
 
-
             if (cat != null)
             {
                 int sceneInd = SceneManager.GetActiveScene().buildIndex;
+                int scenesCount = SceneManager.sceneCountInBuildSettings;
 
-                if (directionDoor == DirectionDoor.ToNext && sceneInd <= EditorBuildSettings.scenes.Length)
+                if (directionDoor == DirectionDoor.ToNext && sceneInd < scenesCount - 1)
                 {
                     PlayerPrefs.SetString("isGoingBack", "false");
                     sceneInd++;

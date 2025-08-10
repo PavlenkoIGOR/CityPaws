@@ -48,8 +48,6 @@ public class Player : SingletonBase<Player>
     {
         var newPlayerShip = Instantiate(m_PlayerCatPrefab.gameObject);
 
-        print("newPlayerShip");
-
         m_Cat = newPlayerShip.GetComponent<Cat>();
 
         //m_CameraController.SetTarget(m_Cat.transform);
@@ -145,17 +143,19 @@ public class Player : SingletonBase<Player>
     public void FindSpawnPoints()
     {
         var spawnPoints = FindObjectsByType<SpawnPoint>(sortMode: FindObjectsSortMode.None);
-        foreach (var spawnPoint in spawnPoints)
+        if (spawnPoints != null)
         {
-            if (spawnPoint.directionSpawnPoint == DirectionSpawnPoint.MoveForeward)
+            foreach (var spawnPoint in spawnPoints)
             {
-                _startSpawnPoint = spawnPoint.transform;
+                if (spawnPoint.directionSpawnPoint == DirectionSpawnPoint.MoveForeward)
+                {
+                    _startSpawnPoint = spawnPoint.transform;
+                }
+                else if (spawnPoint.directionSpawnPoint == DirectionSpawnPoint.MoveBack)
+                {
+                    _spawnPointFromPreviousLvl = spawnPoint.transform;
+                }
             }
-            else if (spawnPoint.directionSpawnPoint == DirectionSpawnPoint.MoveBack)
-            {
-                _spawnPointFromPreviousLvl = spawnPoint.transform;
-            }
-
         }
     }
 
@@ -175,13 +175,13 @@ public class Player : SingletonBase<Player>
             }
         }
         else if (PlayerPrefs.GetString("isGoingBack") == "false")
-
         {
             if (_startSpawnPoint)
             {
                 Respawn(_startSpawnPoint);
             }
         }
+        return;
     }
 
     public int playerHP_Room = 60;
